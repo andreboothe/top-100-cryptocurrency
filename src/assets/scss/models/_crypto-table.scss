@@ -1,0 +1,49 @@
+// .crypto-table{
+//     // border: $frame-border !important;
+//     // border-radius: $frame-border-radius !important;
+// }
+
+.crypto-table__header{
+    background: $teal;
+    border: $frame-border;
+    border-top: 0;
+    border-bottom: 0;
+    border-radius: $frame-border-radius !important;
+    color: white;
+}
+
+.crypto-table__header--row{
+    border-bottom: 0;
+}
+
+.crypto-table__body{
+    
+    border: $frame-border;
+    border-top: 0;
+}
+
+.crypto-table__row{
+    
+    border-bottom: $filter-frame-border !important;
+}
+
+
+.crypto-table__cell{
+    border-left:$filter-frame-border;
+    border-right: $filter-frame-border;
+    text-align: center;
+}
+
+.crypto-table__row--positive{
+    color: green;
+}
+
+.crypto-table__row--negative{
+    color:red;
+}
+
+.crypto-table--header-cell{
+    border-left: $thin-white-border;
+    text-align: center;
+    padding: 0;
+}
