@@ -1,0 +1,5 @@
+bitcoin graph data
+https://api.coindesk.com/v1/bpi/historical/close.json?start=2017-09-01&end=2018-01-05
+
+bitcoin rank data
+https://api.coinmarketcap.com/v2/ticker/?start=1&limit=100&sort=rank
