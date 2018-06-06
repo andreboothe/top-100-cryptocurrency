@@ -1,0 +1,34 @@
+.frame{
+    width: 100%;
+    margin:0 !important;
+    border-top: $frame-border;
+    border-bottom: $frame-border;
+    padding-top: $frame-padding !important;
+    padding-bottom: $frame-padding !important;
+    border-radius: 5px;
+    background-color: $teal;
+}
+
+.frame__element{
+    display: inline-block;
+    width: 30%;
+    margin:0;
+    font-size: 130%;
+    line-height: auto;
+    font-weight: 500;
+}
+
+.frame--text-coral{
+    color: $coral !important; 
+}
+
+.frame__element--border{
+    border-left: $frame--element-border
+}
+
+@media(max-width: 992px){
+    .frame__element--border{
+        border-left: 0;
+        border-top: $frame--element-border;
+    }
+}
