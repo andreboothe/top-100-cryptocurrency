@@ -5,7 +5,7 @@
     border-bottom: $frame-border;
     padding-top: $frame-padding !important;
     padding-bottom: $frame-padding !important;
-    border-radius: 5px;
+    border-radius: $frame-border-radius;
     background-color: $teal;
 }
 
@@ -32,3 +32,4 @@
         border-top: $frame--element-border;
     }
 }
+

@@ -3,7 +3,7 @@ import React from 'react';
 const Navigation = ({onClickDisplayBitcoinPriceChart, onClickDisplayTopCrypto}) => {
 
     return (
-        <section className="section">
+        <section className="section ">
             <div className="container">
                 <div className="row center">
                     <button 

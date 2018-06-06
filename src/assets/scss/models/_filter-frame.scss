@@ -1,0 +1,27 @@
+.filter-frame{
+
+    border: $frame-border;
+    border-radius: $frame-border-radius;
+}
+
+.filter-frame__title{
+    font-size: 200%;
+    font-weight: 500;
+    background: $teal;
+    color: white;
+}
+
+.filter-frame__sub-title{
+    border-bottom: $filter-frame-border;
+}
+
+
+@media(max-width:600px){
+    .filter-frame__sub-title{
+        border-bottom: 0;
+        background: $dark-teal;
+        margin: 0;
+        padding:5px;
+        color: white;
+    }
+}
