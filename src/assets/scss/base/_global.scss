@@ -4,3 +4,14 @@ body {
     height:100%;
     font-family: sans-serif;
   }
+
+  .section, .row{
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .section--minimal-padding{
+    padding-top: .3em !important;
+  }
+
+  
