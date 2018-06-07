@@ -29,7 +29,17 @@
 @media(max-width: 992px){
     .frame__element--border{
         border-left: 0;
-        border-top: $frame--element-border;
+        border-top: $thin-white-border;
     }
 }
+
+@media(max-width: 500px){
+    .frame__element{
+        
+        font-size: 1.15rem  !important;
+        
+    }
+}
+
+
 

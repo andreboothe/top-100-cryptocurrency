@@ -8,8 +8,8 @@ const CryptoTable = ({cryptoStatList, onCLickSortHandler}) => {
             <tr key={i} className={`crypto-table__row  ${growthClass}`}>
                 <td className="crypto-table__cell">{crypto.rank}</td>
                 <td className="crypto-table__cell">{crypto.name}</td>
-                <td className="crypto-table__cell">${crypto.quotes.USD.price}</td>
                 <td className="crypto-table__cell">${crypto.quotes.USD.market_cap}</td>
+                <td className="crypto-table__cell">${crypto.quotes.USD.price}</td>
                 <td className="crypto-table__cell">{crypto.quotes.USD.volume_24h}</td>
                 <td className="crypto-table__cell">{crypto.quotes.USD.percent_change_24h}%</td>
             </tr>

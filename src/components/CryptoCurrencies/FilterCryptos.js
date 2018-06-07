@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit}) => {
+const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,onChangeAdditionalData}) => {
 
     return (
         <section className="section section--minimal-padding " id="filter-cryptos">
@@ -30,13 +30,21 @@ const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit}) 
                                 <option value="10">10</option>
                             </select>
                         </div>
-                        <div className="input-field col s12 m4 center">
+                        <div className="input-field col s12 m4 center filter-frame--hidden">
                             <h6 className="filter-frame__sub-title">Price Unit</h6>
                             <select id="price-unit" onChange={onChangePriceUnit}>
                                 <option value="USD">USD</option>
                                 <option value="GDP">GDP</option>
                             </select>
-                        
+                        </div>
+
+                        <div className="input-field col s12 m4 center ">
+                            <h6 className="filter-frame__sub-title">Additional Data</h6>
+                            <select id="additional-data" onChange={onChangeAdditionalData}>
+                                <option value="price">Price</option>
+                                <option value="volume">Volume</option>
+                                <option value="change">{'Change(2h)'}</option>
+                            </select>
                         </div>
                     </div>
                 </div>

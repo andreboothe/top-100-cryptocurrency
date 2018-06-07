@@ -1,7 +1,4 @@
-// .crypto-table{
-//     // border: $frame-border !important;
-//     // border-radius: $frame-border-radius !important;
-// }
+
 
 .crypto-table__header{
     background: $teal;
@@ -46,4 +43,27 @@
     border-left: $thin-white-border;
     text-align: center;
     padding: 0;
+}
+
+
+@media(max-width:900px){
+    .crypto-table__cell{
+        
+        padding:5px;
+    }
+
+    .btn--header-cell{
+        padding:5px !important;
+    }
+}
+
+@media(max-width:650px){
+    .crypto-table__cell{
+        
+        padding:0;
+    }
+
+    .btn--header-cell{
+        padding:0 !important;
+    }
 }

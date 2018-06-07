@@ -26,7 +26,8 @@ class App extends Component {
       showOnly: 100,
       priceUnit:'USD',
       showGrowth:'all',
-      currentSort:''  
+      currentSort:'',
+      additionalTab: ''  
     }
   }
 
@@ -72,17 +73,21 @@ class App extends Component {
     });
   }
 
-  onChangeShowOnly = (event) =>{
+  onChangeShowOnly = (event) => {
     this.setState({showOnly:event.target.value});
     
   }
 
-  onChangePriceUnit = (event) =>{
+  onChangePriceUnit = (event) => {
     this.setState({priceUnit: event.target.value});
   }
 
-  onChangeShowGrowth = (event) =>{
+  onChangeShowGrowth = (event) => {
     this.setState({showGrowth:event.target.value});
+  }
+
+  onChangeAdditionalData = (event) => {
+    this.setState({additionalTab:event.target.value});
   }
 
   rankSorter = (cryptoA,cryptoB) => cryptoA.rank - cryptoB.rank;
@@ -226,7 +231,6 @@ class App extends Component {
 
   render() {
     const {globalCryptoStats, cryptoStatList} = this.state;
-    // console.log(this.state);
 
     let filteredCryptoStatList = this.filterRank(cryptoStatList);
     filteredCryptoStatList = this.filterGrowth(filteredCryptoStatList);
