@@ -1,0 +1,17 @@
+@media(max-width:900){
+    .container--responsive{
+        width:80% !important;
+    }
+}
+
+@media(max-width:750){
+    .container--responsive{
+        width:90% !important;
+    }
+}
+
+@media(max-width:40){
+    .container--responsive{
+        width:99% !important;
+    }
+}

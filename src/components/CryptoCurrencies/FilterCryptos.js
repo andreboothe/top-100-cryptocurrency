@@ -1,10 +1,18 @@
 import React from 'react';
 
+import priceUnitList from '../Models/priceUnitList';
+
 const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,onChangeAdditionalData}) => {
+
+    const priceUnitOptions = priceUnitList.map((unit,i) =>{
+        
+        return (unit === 'USD')?<option key={i} value={unit}>{unit}</option> 
+                :<option key={i} value={unit}>{unit}</option>;
+    });
 
     return (
         <section className="section section--minimal-padding " id="filter-cryptos">
-            <div className="container ">
+            <div className="container container--responsive">
                 <div className="filter-frame white-bg">
                     <div className="row center filter-frame__title">
                         <div className="col s12">
@@ -30,17 +38,19 @@ const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,on
                                 <option value="10">10</option>
                             </select>
                         </div>
-                        <div className="input-field col s12 m4 center filter-frame--hidden">
+                        <div className="input-field col s12 m4 center ">
                             <h6 className="filter-frame__sub-title">Price Unit</h6>
-                            <select id="price-unit" onChange={onChangePriceUnit}>
-                                <option value="USD">USD</option>
-                                <option value="GDP">GDP</option>
+                            <select value="USD" id="price-unit" onChange={onChangePriceUnit}>
+                                {priceUnitOptions}
                             </select>
                         </div>
 
-                        <div className="input-field col s12 m4 center ">
+                        <div className="input-field col s12 m4 center filter-frame--hidden">
                             <h6 className="filter-frame__sub-title">Additional Data</h6>
-                            <select id="additional-data" onChange={onChangeAdditionalData}>
+                            <select defaultValue="" id="additional-data" onChange={onChangeAdditionalData} >
+                                {/* <option value="" disabled >Choose your option</option>
+                                <option value="marketCap">Market Cap</option> */}
+                                <option value="">Choose your option</option>
                                 <option value="price">Price</option>
                                 <option value="volume">Volume</option>
                                 <option value="change">{'Change(2h)'}</option>

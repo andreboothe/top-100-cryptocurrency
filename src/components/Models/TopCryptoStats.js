@@ -1,6 +1,7 @@
 class TopCryptoStats {
     
-    constructor() {
+    constructor(currency) {
+        this.currency = currency;
         this.promiseReady = this.fetchCryptoStats();
         // this.cryptoList = [];
     }
@@ -15,8 +16,8 @@ class TopCryptoStats {
 
     fetchCryptoStats = () => {
         const api_endpoint = 'https://api.coinmarketcap.com/v2/ticker/?start=1&limit=100&sort=rank';
-        
-        return fetch(api_endpoint)
+        const convert = (this.currency === 'USD')?'':`&convert=${this.currency}`;
+        return fetch(api_endpoint + convert)
             .then(response => response.json())
             .then(cryptos => {
                 let result = [];

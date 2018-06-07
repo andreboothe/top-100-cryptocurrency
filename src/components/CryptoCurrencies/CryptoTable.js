@@ -1,17 +1,30 @@
 import React from 'react';
 
-const CryptoTable = ({cryptoStatList, onCLickSortHandler}) => {
+const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currency}) => {
+
+    const additionalTabChecker = (tab) => {
+        return (additionalTab === 'all')? '':
+                (tab !== additionalTab)?'hide':'';
+    }
 
     const dataTable = cryptoStatList.map((crypto,i) => {
         const growthClass = (crypto.quotes.USD.percent_change_24h < 0)?'crypto-table__row--negative':'crypto-table__row--positive';
+        const rank = crypto.rank;
+        const name = crypto.name;
+        const marketCap = crypto.quotes[currency].market_cap;
+        const price = crypto.quotes[currency].price;
+        const volume = crypto.quotes[currency].volume_24h;
+        const change = crypto.quotes[currency].percent_change_24h;
+
+
         return (
             <tr key={i} className={`crypto-table__row  ${growthClass}`}>
-                <td className="crypto-table__cell">{crypto.rank}</td>
-                <td className="crypto-table__cell">{crypto.name}</td>
-                <td className="crypto-table__cell">${crypto.quotes.USD.market_cap}</td>
-                <td className="crypto-table__cell">${crypto.quotes.USD.price}</td>
-                <td className="crypto-table__cell">{crypto.quotes.USD.volume_24h}</td>
-                <td className="crypto-table__cell">{crypto.quotes.USD.percent_change_24h}%</td>
+                <td className="crypto-table__cell">{rank}</td>
+                <td className="crypto-table__cell">{name}</td>
+                <td className="crypto-table__cell">${marketCap}</td>
+                <td className={`crypto-table__cell ${additionalTabChecker('price')}`}>${price}</td>
+                <td className={`crypto-table__cell ${additionalTabChecker('volume')}`}>{volume}</td>
+                <td className={`crypto-table__cell ${additionalTabChecker('change')}`}>{change}%</td>
             </tr>
         );
     });
@@ -33,15 +46,15 @@ const CryptoTable = ({cryptoStatList, onCLickSortHandler}) => {
                             <button id="table-market-cap-col" onClick={onCLickSortHandler} 
                             className="btn btn--header-cell waves-effect waves-light">Market Cap</button>
                         </th> 
-                        <th className="crypto-table--header-cell">
+                        <th className={`crypto-table--header-cell ${additionalTabChecker('price')}`}>
                             <button id="table-price-col" onClick={onCLickSortHandler} 
-                            className="btn btn--header-cell waves-effect waves-light">{'Price(USD)'}</button>
+                            className="btn btn--header-cell waves-effect waves-light"  >{`Price ${currency}`}</button>
                         </th>
-                        <th className="crypto-table--header-cell">
+                        <th className={`crypto-table--header-cell ${additionalTabChecker('volume')}`}>
                             <button id="table-volume-col" onClick={onCLickSortHandler} 
                             className="btn btn--header-cell waves-effect waves-light">{'Volume (24h)'}</button>
                         </th>
-                        <th className="crypto-table--header-cell">
+                        <th className={`crypto-table--header-cell ${additionalTabChecker('change')}`}>
                             <button id="table-change-col" onClick={onCLickSortHandler} 
                             className="btn btn--header-cell waves-effect waves-light">{'Change(24h)'}</button>
                         </th>

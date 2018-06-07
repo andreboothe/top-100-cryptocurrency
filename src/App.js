@@ -24,17 +24,38 @@ class App extends Component {
       displayTopCrypto: true,
       displayBitcoinPriceChart: false,
       showOnly: 100,
-      priceUnit:'USD',
       showGrowth:'all',
       currentSort:'',
-      additionalTab: ''  
+      additionalTab: 'all',
+      currency: 'USD',
+      topCryptoLoaded: false
     }
   }
 
   componentDidMount() {
     this.state.globalCryptoStats.ready().then( () => this.setGlobalCryptoStats());
-    this.setCryptoStatList();
+    this.setCryptoStatList('USD');
     this.initMaterialize();
+    this.responsiveDisplayListener();
+  }
+
+  responsiveDisplayListener = () => {
+    window.addEventListener('resize', this.responsiveDisplayHandler);
+  }
+
+  responsiveDisplayHandler = () => {
+    const tab  = this.state.additionalTab;
+    if(window.innerWidth <= 600){
+      if(tab === 'all'){
+        this.setState({additionalTab: ''});
+      }
+      else{
+        this.setState({additionalTab: tab});
+      } 
+    }
+    else{
+      this.setState({additionalTab: 'all'});
+    }
   }
 
   initMaterialize = () => {
@@ -48,13 +69,16 @@ class App extends Component {
     this.setState({globalCryptoStats: this.state.globalCryptoStats})
   }
 
-  setCryptoStatList = () => {
-    let topCryptoStats = new TopCryptoStats();
+  setCryptoStatList = (currency) => {
+    let topCryptoStats = new TopCryptoStats(currency);
+
     topCryptoStats.ready()
       .then(() => {
         this.setState({cryptoStatList: topCryptoStats.getCryptoList()})
       })
-      .then(() => {this.sortRankHandler()});
+      .then(() => {this.sortRankHandler()})
+      .then(() => {this.setState({topCryptoLoaded: true, currency: currency})});
+     
     
   }
 
@@ -79,7 +103,10 @@ class App extends Component {
   }
 
   onChangePriceUnit = (event) => {
-    this.setState({priceUnit: event.target.value});
+    
+    const priceUnit = event.target.value;
+    this.setState({topCryptoLoaded: false, currentSort: ''});
+    this.setCryptoStatList(priceUnit);
   }
 
   onChangeShowGrowth = (event) => {
@@ -88,14 +115,8 @@ class App extends Component {
 
   onChangeAdditionalData = (event) => {
     this.setState({additionalTab:event.target.value});
+    
   }
-
-  rankSorter = (cryptoA,cryptoB) => cryptoA.rank - cryptoB.rank;
-  marketCapSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.market_cap - cryptoB.quotes.USD.market_cap;
-  priceSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.price - cryptoB.quotes.USD.price;
-  volumeSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.volume_24h - cryptoB.quotes.USD.volume_24h;
-  changeSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.percent_change_24h - cryptoB.quotes.USD.percent_change_24h;
-  nameSorter = (cryptoA,cryptoB) => (cryptoA.name.toLowerCase() > cryptoB.name.toLowerCase())? 1: -1;
 
   onCLickSortHandler = (event) => {
     const id = event.target.id;
@@ -123,7 +144,14 @@ class App extends Component {
     }
   }
 
-  sortRankHandler =()=>{
+  rankSorter = (cryptoA,cryptoB) => cryptoA.rank - cryptoB.rank;
+  marketCapSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.market_cap - cryptoB.quotes.USD.market_cap;
+  priceSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.price - cryptoB.quotes.USD.price;
+  volumeSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.volume_24h - cryptoB.quotes.USD.volume_24h;
+  changeSorter = (cryptoA,cryptoB) => cryptoA.quotes.USD.percent_change_24h - cryptoB.quotes.USD.percent_change_24h;
+  nameSorter = (cryptoA,cryptoB) => (cryptoA.name.toLowerCase() > cryptoB.name.toLowerCase())? 1: -1;
+
+  sortRankHandler = () =>{
     if(this.state.currentSort === "rank"){
       const sorted = this.state.cryptoStatList.sort(this.rankSorter).reverse();
       this.setState({cryptoStatList: sorted,currentSort: ""});
@@ -160,7 +188,7 @@ class App extends Component {
 
   }
 
-  cryptoListSortMarketCap =()=>{
+  cryptoListSortMarketCap = () =>{
     let sorted = this.state.cryptoStatList.sort(this.marketCapSorter);
     if(this.state.currentSort === "mcap"){
       sorted = sorted.reverse();
@@ -182,7 +210,7 @@ class App extends Component {
     }
   }
 
-  cryptoListSortVolume =()=>{
+  cryptoListSortVolume = () =>{
     let sorted = this.state.cryptoStatList.sort(this.volumeSorter);
     if(this.state.currentSort === "volume"){
       sorted = sorted.reverse();
@@ -193,7 +221,7 @@ class App extends Component {
     }
   }
   
-  cryptoListSortChange =()=>{
+  cryptoListSortChange = () =>{
     let sorted = this.state.cryptoStatList.sort(this.changeSorter);
     if(this.state.currentSort === "change"){
       sorted = sorted.reverse();
@@ -230,10 +258,20 @@ class App extends Component {
   }
 
   render() {
-    const {globalCryptoStats, cryptoStatList} = this.state;
+    const {globalCryptoStats, cryptoStatList, additionalTab, currency, topCryptoLoaded} = this.state;
 
     let filteredCryptoStatList = this.filterRank(cryptoStatList);
     filteredCryptoStatList = this.filterGrowth(filteredCryptoStatList);
+
+    const renderCryptoTable = (topCryptoLoaded)?
+      <CryptoTable 
+            cryptoStatList = {filteredCryptoStatList}
+            onCLickSortHandler = {this.onCLickSortHandler}
+            additionalTab = {additionalTab}
+            currency = {currency}
+          />
+      
+      :<div className="loading-animation--spinner"> </div>;
 
     return (
       <main className="App">
@@ -252,14 +290,18 @@ class App extends Component {
           onChangeShowGrowth = {this.onChangeShowGrowth}
           onChangeShowOnly = {this.onChangeShowOnly}
           onChangePriceUnit = {this.onChangePriceUnit}
-
+          onChangeAdditionalData = {this.onChangeAdditionalData}
         />
 
-        <CryptoTable 
+        
+        {/* <CryptoTable 
           cryptoStatList = {filteredCryptoStatList}
           onCLickSortHandler = {this.onCLickSortHandler}
-        />
-
+          additionalTab = {additionalTab}
+          currency = {currency}
+        /> */}
+        
+        {renderCryptoTable}
 
       </main>
     );

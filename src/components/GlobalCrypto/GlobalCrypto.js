@@ -4,7 +4,7 @@ const GlobalCrypto = ({marketCap, vol24Hour, btcDominance}) => {
 
     return (
         <section className="section section--minimal-padding">
-            <div className="container">
+            <div className="container container--responsive">
                 <div className="row center white-text frame">
                     <div className="col s12 m12 l4 frame__element">
                         Market Cap: <span className="frame--text-coral">${marketCap}</span>

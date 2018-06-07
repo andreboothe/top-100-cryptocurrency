@@ -49,17 +49,16 @@
 @media(max-width:900px){
     .crypto-table__cell{
         
-        padding:5px;
+        padding:1px;
     }
 
     .btn--header-cell{
-        padding:5px !important;
+        padding:1px !important;
     }
 }
 
-@media(max-width:650px){
+@media(max-width:750px){
     .crypto-table__cell{
-        
         padding:0;
     }
 

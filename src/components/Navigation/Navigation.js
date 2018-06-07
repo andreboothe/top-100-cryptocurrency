@@ -4,7 +4,7 @@ const Navigation = ({onClickDisplayBitcoinPriceChart, onClickDisplayTopCrypto}) 
 
     return (
         <section className="section ">
-            <div className="container">
+            <div className="container container--responsive">
                 <div className="row center">
                     <button 
                         onClick={onClickDisplayTopCrypto}
