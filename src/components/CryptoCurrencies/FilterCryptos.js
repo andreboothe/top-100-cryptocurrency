@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Includes
 import priceUnitList from '../Models/priceUnitList';
 
 const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,onChangeAdditionalData}) => {
@@ -47,10 +48,9 @@ const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,on
 
                         <div className="input-field col s12 m4 center filter-frame--hidden">
                             <h6 className="filter-frame__sub-title">Additional Data</h6>
-                            <select defaultValue="" id="additional-data" onChange={onChangeAdditionalData} >
-                                {/* <option value="" disabled >Choose your option</option>
-                                <option value="marketCap">Market Cap</option> */}
-                                <option value="">Choose your option</option>
+                            <select defaultValue={[]} id="additional-data" onChange={onChangeAdditionalData} multiple>
+                                <option value="" disabled >Choose your option</option>
+                                <option value="marketCap">Market Cap</option>
                                 <option value="price">Price</option>
                                 <option value="volume">Volume</option>
                                 <option value="change">{'Change(2h)'}</option>

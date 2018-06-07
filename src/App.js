@@ -26,10 +26,12 @@ class App extends Component {
       showOnly: 100,
       showGrowth:'all',
       currentSort:'',
-      additionalTab: 'all',
+      additionalTab: ['all'],
       currency: 'USD',
       topCryptoLoaded: false
     }
+
+    this.loadDisplayListener();
   }
 
   componentDidMount() {
@@ -39,22 +41,25 @@ class App extends Component {
     this.responsiveDisplayListener();
   }
 
+  loadDisplayListener = () => {
+    window.addEventListener('load', this.responsiveDisplayHandler);
+  }
   responsiveDisplayListener = () => {
     window.addEventListener('resize', this.responsiveDisplayHandler);
   }
 
   responsiveDisplayHandler = () => {
-    const tab  = this.state.additionalTab;
+    const tab  = [...this.state.additionalTab];
     if(window.innerWidth <= 600){
-      if(tab === 'all'){
-        this.setState({additionalTab: ''});
+      if(tab.includes('all')){
+        this.setState({additionalTab: ['']});
       }
       else{
         this.setState({additionalTab: tab});
       } 
     }
     else{
-      this.setState({additionalTab: 'all'});
+      this.setState({additionalTab: ['all']});
     }
   }
 
@@ -79,7 +84,6 @@ class App extends Component {
       .then(() => {this.sortRankHandler()})
       .then(() => {this.setState({topCryptoLoaded: true, currency: currency})});
      
-    
   }
 
   onClickDisplayTopCrypto = () => {
@@ -114,7 +118,11 @@ class App extends Component {
   }
 
   onChangeAdditionalData = (event) => {
-    this.setState({additionalTab:event.target.value});
+    // this.setState({additionalTab:event.target.value});
+    let selectedNodes = document.querySelector('#additional-data').childNodes;
+    selectedNodes = [...selectedNodes].filter(option => option.selected === true);
+    const tabs = selectedNodes.map(option => option.value);
+    this.setState({additionalTab: tabs});
     
   }
 

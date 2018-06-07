@@ -3,8 +3,10 @@ import React from 'react';
 const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currency}) => {
 
     const additionalTabChecker = (tab) => {
-        return (additionalTab === 'all')? '':
-                (tab !== additionalTab)?'hide':'';
+
+        const selectedTabs = [...additionalTab];
+        return (selectedTabs.includes('all'))? '':
+                (!selectedTabs.includes(tab))?'hide':'';
     }
 
     const dataTable = cryptoStatList.map((crypto,i) => {
@@ -21,7 +23,7 @@ const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currenc
             <tr key={i} className={`crypto-table__row  ${growthClass}`}>
                 <td className="crypto-table__cell">{rank}</td>
                 <td className="crypto-table__cell">{name}</td>
-                <td className="crypto-table__cell">${marketCap}</td>
+                <td className={`crypto-table__cell ${additionalTabChecker('marketCap')}`}>${marketCap}</td>
                 <td className={`crypto-table__cell ${additionalTabChecker('price')}`}>${price}</td>
                 <td className={`crypto-table__cell ${additionalTabChecker('volume')}`}>{volume}</td>
                 <td className={`crypto-table__cell ${additionalTabChecker('change')}`}>{change}%</td>
@@ -42,9 +44,9 @@ const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currenc
                             <button id="table-name-col" onClick={onCLickSortHandler} 
                             className="btn btn--header-cell waves-effect waves-light">Name</button>
                         </th>
-                        <th className="crypto-table--header-cell">
+                        <th className={`crypto-table--header-cell ${additionalTabChecker('marketCap')}`}>
                             <button id="table-market-cap-col" onClick={onCLickSortHandler} 
-                            className="btn btn--header-cell waves-effect waves-light">Market Cap</button>
+                            className="btn btn--header-cell waves-effect waves-light ">Market Cap</button>
                         </th> 
                         <th className={`crypto-table--header-cell ${additionalTabChecker('price')}`}>
                             <button id="table-price-col" onClick={onCLickSortHandler} 
