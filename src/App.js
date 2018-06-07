@@ -38,12 +38,13 @@ class App extends Component {
     this.state.globalCryptoStats.ready().then( () => this.setGlobalCryptoStats());
     this.setCryptoStatList('USD');
     this.initMaterialize();
-    this.responsiveDisplayListener();
+    this.responsiveDisplayListener();s
   }
 
   loadDisplayListener = () => {
     window.addEventListener('load', this.responsiveDisplayHandler);
   }
+
   responsiveDisplayListener = () => {
     window.addEventListener('resize', this.responsiveDisplayHandler);
   }
