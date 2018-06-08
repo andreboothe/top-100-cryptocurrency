@@ -7,6 +7,8 @@ import GlobalCryptoStats from './components/Models/GlobalCryptoStats';
 import FilterCryptos from './components/CryptoCurrencies/FilterCryptos';
 import CryptoTable from './components/CryptoCurrencies/CryptoTable';
 import TopCryptoStats from './components/Models/TopCryptoStats';
+import BTCPriceChart from './components/BTCPriceChart/BTCPriceChart';
+import BTCChartData from './components/Models/BTCChartData';
 
 // Includes
 import './assets/css/styles.min.css';
@@ -28,7 +30,10 @@ class App extends Component {
       currentSort:'',
       additionalTab: ['all'],
       currency: 'USD',
-      topCryptoLoaded: false
+      topCryptoLoaded: false,
+      btcChartLoaded: false,
+      chartXCoords: [],
+      chartYCoords: []
     }
 
     this.loadDisplayListener();
@@ -38,7 +43,8 @@ class App extends Component {
     this.state.globalCryptoStats.ready().then( () => this.setGlobalCryptoStats());
     this.setCryptoStatList('USD');
     this.initMaterialize();
-    this.responsiveDisplayListener();s
+    this.responsiveDisplayListener();
+    this.setBtcChartData();
   }
 
   loadDisplayListener = () => {
@@ -75,9 +81,33 @@ class App extends Component {
     this.setState({globalCryptoStats: this.state.globalCryptoStats})
   }
 
+  setBtcChartData = () => {
+    const dates = this.getDates();
+    let chartData = new BTCChartData(dates[0], dates[1]); 
+    
+    chartData.ready()
+      .then(() => {
+        this.setState({
+          chartXCoords: chartData.getXCoords(),
+          chartYCoords: chartData.getYCoords(),
+          btcChartLoaded: true
+        });
+      });
+  }
+
+  getDates = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const day = (date.getDay() < 10)?'0'+date.getDay():date.getDay();
+    const month = (date.getMonth() < 10)?'0'+date.getMonth():date.getMonth();
+    const todaysDate = [year,month,day].join('-');
+    const oneYearAgo = [year - 1,month,day].join('-');
+    return [oneYearAgo, todaysDate]
+  }
+
   setCryptoStatList = (currency) => {
     let topCryptoStats = new TopCryptoStats(currency);
-
+    
     topCryptoStats.ready()
       .then(() => {
         this.setState({cryptoStatList: topCryptoStats.getCryptoList()})
@@ -267,20 +297,39 @@ class App extends Component {
   }
 
   render() {
-    const {globalCryptoStats, cryptoStatList, additionalTab, currency, topCryptoLoaded} = this.state;
+    const {globalCryptoStats, cryptoStatList, additionalTab, currency, 
+          topCryptoLoaded, displayTopCrypto, btcChartLoaded, chartXCoords, chartYCoords } = this.state;
 
     let filteredCryptoStatList = this.filterRank(cryptoStatList);
-    filteredCryptoStatList = this.filterGrowth(filteredCryptoStatList);
+      filteredCryptoStatList = this.filterGrowth(filteredCryptoStatList);
 
-    const renderCryptoTable = (topCryptoLoaded)?
+    const loading = <div className="loading-animation--spinner"> </div>;
+    
+    const renderCryptoTable = (!topCryptoLoaded)?loading:
       <CryptoTable 
-            cryptoStatList = {filteredCryptoStatList}
-            onCLickSortHandler = {this.onCLickSortHandler}
-            additionalTab = {additionalTab}
-            currency = {currency}
-          />
-      
-      :<div className="loading-animation--spinner"> </div>;
+        cryptoStatList = {filteredCryptoStatList}
+        onCLickSortHandler = {this.onCLickSortHandler}
+        additionalTab = {additionalTab}
+        currency = {currency}
+      />;
+
+    const renderFilterCrypto = (!displayTopCrypto)?'':
+      <FilterCryptos 
+        onChangeShowGrowth = {this.onChangeShowGrowth}
+        onChangeShowOnly = {this.onChangeShowOnly}
+        onChangePriceUnit = {this.onChangePriceUnit}
+        onChangeAdditionalData = {this.onChangeAdditionalData}
+      />;
+
+
+    const renderBTCPriceChart = (!btcChartLoaded)?loading:
+      <BTCPriceChart 
+        chartXCoords = {chartXCoords}
+        chartYCoords = {chartYCoords}
+      />;
+    const sectionSwap = (displayTopCrypto)?renderCryptoTable :renderBTCPriceChart;
+
+
 
     return (
       <main className="App">
@@ -295,23 +344,19 @@ class App extends Component {
           btcDominance = {globalCryptoStats.bitcoinPercentageMCap()}
         />
 
-        <FilterCryptos 
+        {/* <FilterCryptos 
           onChangeShowGrowth = {this.onChangeShowGrowth}
           onChangeShowOnly = {this.onChangeShowOnly}
           onChangePriceUnit = {this.onChangePriceUnit}
           onChangeAdditionalData = {this.onChangeAdditionalData}
-        />
-
-        
-        {/* <CryptoTable 
-          cryptoStatList = {filteredCryptoStatList}
-          onCLickSortHandler = {this.onCLickSortHandler}
-          additionalTab = {additionalTab}
-          currency = {currency}
         /> */}
         
-        {renderCryptoTable}
+        {/* {renderCryptoTable}
 
+        <BTCPriceChart /> */}
+        {renderFilterCrypto}
+        {sectionSwap}
+        
       </main>
     );
   }
