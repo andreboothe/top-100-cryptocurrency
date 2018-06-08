@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currency}) => {
+const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currency, topCryptoLoaded}) => {
 
     const additionalTabChecker = (tab) => {
 
@@ -30,6 +30,7 @@ const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currenc
             </tr>
         );
     });
+
 
     return (
         <section className="section section--minimal-padding " id="crypto-table">
@@ -64,6 +65,7 @@ const CryptoTable = ({cryptoStatList, onCLickSortHandler, additionalTab, currenc
                     
                 </thead>
                 <tbody className="crypto-table__body">
+                    
                     {dataTable}
                 </tbody>
                 

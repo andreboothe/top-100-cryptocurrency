@@ -22,6 +22,28 @@
     color: $coral !important; 
 }
 
+.frame__title{
+    font-size: 200%;
+    font-weight: 500;
+    color: white;
+}
+
+.frame--margin-minimal{
+    margin: .2em;
+}
+
+.frame__subtilte{
+    font-size: 180%;
+    font-weight: 500;
+    color: white;
+}
+
+.frame__graph{
+    background: white;
+    color:coral;
+}
+
+
 .frame__element--border{
     border-left: $frame--element-border
 }
@@ -35,9 +57,7 @@
 
 @media(max-width: 500px){
     .frame__element{
-        
         font-size: 1.15rem  !important;
-        
     }
 }
 
