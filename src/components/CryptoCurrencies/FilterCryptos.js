@@ -3,7 +3,7 @@ import React from 'react';
 // Includes
 import priceUnitList from '../Models/priceUnitList';
 
-const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,onChangeAdditionalData}) => {
+const FilterCryptos = ({display, onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,onChangeAdditionalData}) => {
 
     const priceUnitOptions = priceUnitList.map((unit,i) =>{
         
@@ -11,8 +11,10 @@ const FilterCryptos = ({onChangeShowGrowth,onChangeShowOnly,onChangePriceUnit,on
                 :<option key={i} value={unit}>{unit}</option>;
     });
 
+    const displayClass = (display)?'':'hide';
     return (
-        <section className="section section--minimal-padding " id="filter-cryptos">
+
+        <section className={`section section--minimal-padding ${displayClass}`} id="filter-cryptos">
             <div className="container container--responsive">
                 <div className="filter-frame white-bg">
                     <div className="row center filter-frame__title">

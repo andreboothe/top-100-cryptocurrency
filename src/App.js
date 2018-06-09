@@ -71,10 +71,9 @@ class App extends Component {
   }
 
   initMaterialize = () => {
-    document.addEventListener('DOMContentLoaded', function() {
-      let select = document.querySelectorAll('select');
-      M.FormSelect.init(select, {});
-    });
+   
+    let select = document.querySelectorAll('select');
+    M.FormSelect.init(select, {});
   }
 
   setGlobalCryptoStats = () => {
@@ -313,23 +312,13 @@ class App extends Component {
         currency = {currency}
       />;
 
-    const renderFilterCrypto = (!displayTopCrypto)?'':
-      <FilterCryptos 
-        onChangeShowGrowth = {this.onChangeShowGrowth}
-        onChangeShowOnly = {this.onChangeShowOnly}
-        onChangePriceUnit = {this.onChangePriceUnit}
-        onChangeAdditionalData = {this.onChangeAdditionalData}
-      />;
-
-
     const renderBTCPriceChart = (!btcChartLoaded)?loading:
       <BTCPriceChart 
         chartXCoords = {chartXCoords}
         chartYCoords = {chartYCoords}
       />;
+
     const sectionSwap = (displayTopCrypto)?renderCryptoTable :renderBTCPriceChart;
-
-
 
     return (
       <main className="App">
@@ -344,18 +333,18 @@ class App extends Component {
           btcDominance = {globalCryptoStats.bitcoinPercentageMCap()}
         />
 
-        {/* <FilterCryptos 
+
+        <FilterCryptos 
           onChangeShowGrowth = {this.onChangeShowGrowth}
           onChangeShowOnly = {this.onChangeShowOnly}
           onChangePriceUnit = {this.onChangePriceUnit}
           onChangeAdditionalData = {this.onChangeAdditionalData}
-        /> */}
-        
-        {/* {renderCryptoTable}
+          display = {displayTopCrypto}
+      />
 
-        <BTCPriceChart /> */}
-        {renderFilterCrypto}
+
         {sectionSwap}
+
         
       </main>
     );
