@@ -5,7 +5,6 @@ const CryptoTable = ({
   onCLickSortHandler,
   additionalTab,
   currency,
-  topCryptoLoaded,
 }) => {
   const additionalTabChecker = (tab) => {
     const selectedTabs = [...additionalTab];
